@@ -137,6 +137,70 @@ app.delete('/api/templates/:id', async (req, res) => {
   }
 })
 
+// Create a group
+app.post('/api/groups', async (req, res) => {
+  const { name } = req.body
+
+  if (!name) {
+    return res.status(400).json({ error: 'Group name is required' })
+  }
+
+  try {
+    const group = {
+      id: Date.now().toString(),
+      name,
+      templateIds: [],
+      createdAt: new Date().toISOString(),
+    }
+
+    await redis.hSet('template_groups', group.id, JSON.stringify(group))
+    res.json(group)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Get all groups
+app.get('/api/groups', async (req, res) => {
+  try {
+    const groups = await redis.hGetAll('template_groups')
+    res.json(Object.values(groups).map(g => JSON.parse(g)))
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Update group (add/remove templates)
+app.put('/api/groups/:id', async (req, res) => {
+  const { name, templateIds } = req.body
+
+  try {
+    const groupData = await redis.hGet('template_groups', req.params.id)
+    if (!groupData) {
+      return res.status(404).json({ error: 'Group not found' })
+    }
+
+    const group = JSON.parse(groupData)
+    if (name) group.name = name
+    if (templateIds) group.templateIds = templateIds
+
+    await redis.hSet('template_groups', req.params.id, JSON.stringify(group))
+    res.json(group)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// Delete group
+app.delete('/api/groups/:id', async (req, res) => {
+  try {
+    await redis.hDel('template_groups', req.params.id)
+    res.json({ success: true })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`API Tester backend running on http://localhost:${PORT}`)
 })

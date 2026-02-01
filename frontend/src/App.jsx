@@ -14,12 +14,19 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [history, setHistory] = useState([])
   const [templates, setTemplates] = useState([])
+  const [groups, setGroups] = useState([])
   const [activeTab, setActiveTab] = useState('headers')
   const [templateName, setTemplateName] = useState('')
+  const [showGroupModal, setShowGroupModal] = useState(false)
+  const [newGroupName, setNewGroupName] = useState('')
+  const [selectedTemplates, setSelectedTemplates] = useState([])
+  const [editingGroup, setEditingGroup] = useState(null)
+  const [expandedGroups, setExpandedGroups] = useState({})
 
   useEffect(() => {
     fetchHistory()
     fetchTemplates()
+    fetchGroups()
   }, [])
 
   const fetchHistory = async () => {
@@ -39,6 +46,16 @@ function App() {
       setTemplates(data)
     } catch (err) {
       console.error('Failed to fetch templates:', err)
+    }
+  }
+
+  const fetchGroups = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/groups`)
+      const data = await res.json()
+      setGroups(data)
+    } catch (err) {
+      console.error('Failed to fetch groups:', err)
     }
   }
 
@@ -168,6 +185,92 @@ function App() {
     return '#6b7280'
   }
 
+  // Group functions
+  const openCreateGroupModal = () => {
+    setEditingGroup(null)
+    setNewGroupName('')
+    setSelectedTemplates([])
+    setShowGroupModal(true)
+  }
+
+  const openEditGroupModal = (group) => {
+    setEditingGroup(group)
+    setNewGroupName(group.name)
+    setSelectedTemplates(group.templateIds || [])
+    setShowGroupModal(true)
+  }
+
+  const toggleTemplateSelection = (templateId) => {
+    setSelectedTemplates(prev =>
+      prev.includes(templateId)
+        ? prev.filter(id => id !== templateId)
+        : [...prev, templateId]
+    )
+  }
+
+  const saveGroup = async () => {
+    if (!newGroupName) return
+
+    try {
+      if (editingGroup) {
+        await fetch(`${API_BASE}/groups/${editingGroup.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: newGroupName,
+            templateIds: selectedTemplates,
+          }),
+        })
+      } else {
+        const res = await fetch(`${API_BASE}/groups`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: newGroupName }),
+        })
+        const newGroup = await res.json()
+        if (selectedTemplates.length > 0) {
+          await fetch(`${API_BASE}/groups/${newGroup.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: newGroupName,
+              templateIds: selectedTemplates,
+            }),
+          })
+        }
+      }
+      setShowGroupModal(false)
+      setNewGroupName('')
+      setSelectedTemplates([])
+      setEditingGroup(null)
+      fetchGroups()
+    } catch (err) {
+      console.error('Failed to save group:', err)
+    }
+  }
+
+  const deleteGroup = async (id) => {
+    try {
+      await fetch(`${API_BASE}/groups/${id}`, { method: 'DELETE' })
+      fetchGroups()
+    } catch (err) {
+      console.error('Failed to delete group:', err)
+    }
+  }
+
+  const toggleGroupExpand = (groupId) => {
+    setExpandedGroups(prev => ({
+      ...prev,
+      [groupId]: !prev[groupId]
+    }))
+  }
+
+  const getTemplateById = (id) => templates.find(t => t.id === id)
+
+  // Get ungrouped templates
+  const groupedTemplateIds = groups.flatMap(g => g.templateIds || [])
+  const ungroupedTemplates = templates.filter(t => !groupedTemplateIds.includes(t.id))
+
   return (
     <div className="app">
       <header className="header">
@@ -179,16 +282,52 @@ function App() {
           <div className="sidebar-section">
             <div className="sidebar-header">
               <h3>Templates</h3>
+              <button className="create-group-btn" onClick={openCreateGroupModal}>+ Group</button>
             </div>
+
+            {/* Groups */}
+            {groups.map(group => (
+              <div key={group.id} className="group-container">
+                <div className="group-header" onClick={() => toggleGroupExpand(group.id)}>
+                  <span className="group-expand-icon">{expandedGroups[group.id] ? '▼' : '▶'}</span>
+                  <span className="group-name">{group.name}</span>
+                  <span className="group-count">{(group.templateIds || []).length}</span>
+                  <button className="edit-group-btn" onClick={(e) => { e.stopPropagation(); openEditGroupModal(group); }}>✎</button>
+                  <button className="delete-btn" onClick={(e) => { e.stopPropagation(); deleteGroup(group.id); }}>×</button>
+                </div>
+                {expandedGroups[group.id] && (
+                  <div className="group-templates">
+                    {(group.templateIds || []).map(templateId => {
+                      const template = getTemplateById(templateId)
+                      if (!template) return null
+                      return (
+                        <div key={template.id} className="template-item">
+                          <span className={`method-badge ${template.method.toLowerCase()}`}>{template.method}</span>
+                          <span className="template-name" onClick={() => loadTemplate(template)}>{template.name}</span>
+                          <button className="delete-btn" onClick={() => deleteTemplate(template.id)}>×</button>
+                        </div>
+                      )
+                    })}
+                    {(group.templateIds || []).length === 0 && (
+                      <p className="empty-text">No templates in this group</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Ungrouped templates */}
             <div className="template-list">
-              {templates.map(t => (
+              {ungroupedTemplates.map(t => (
                 <div key={t.id} className="template-item">
                   <span className={`method-badge ${t.method.toLowerCase()}`}>{t.method}</span>
                   <span className="template-name" onClick={() => loadTemplate(t)}>{t.name}</span>
                   <button className="delete-btn" onClick={() => deleteTemplate(t.id)}>×</button>
                 </div>
               ))}
-              {templates.length === 0 && <p className="empty-text">No saved templates</p>}
+              {ungroupedTemplates.length === 0 && groups.length === 0 && (
+                <p className="empty-text">No saved templates</p>
+              )}
             </div>
           </div>
 
@@ -342,6 +481,50 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Group Modal */}
+      {showGroupModal && (
+        <div className="modal-overlay" onClick={() => setShowGroupModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{editingGroup ? 'Edit Group' : 'Create Group'}</h3>
+              <button className="modal-close" onClick={() => setShowGroupModal(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              <input
+                type="text"
+                value={newGroupName}
+                onChange={e => setNewGroupName(e.target.value)}
+                placeholder="Group name"
+                className="group-name-input"
+              />
+              <div className="template-selector">
+                <p className="selector-label">Select templates to add:</p>
+                {templates.map(t => (
+                  <div
+                    key={t.id}
+                    className={`template-select-item ${selectedTemplates.includes(t.id) ? 'selected' : ''}`}
+                    onClick={() => toggleTemplateSelection(t.id)}
+                  >
+                    <span className="checkbox">{selectedTemplates.includes(t.id) ? '✓' : ''}</span>
+                    <span className={`method-badge ${t.method.toLowerCase()}`}>{t.method}</span>
+                    <span className="template-name">{t.name}</span>
+                  </div>
+                ))}
+                {templates.length === 0 && (
+                  <p className="empty-text">No templates available</p>
+                )}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="cancel-btn" onClick={() => setShowGroupModal(false)}>Cancel</button>
+              <button className="confirm-btn" onClick={saveGroup} disabled={!newGroupName}>
+                {editingGroup ? 'Save' : 'Create'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

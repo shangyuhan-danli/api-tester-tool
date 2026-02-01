@@ -425,3 +425,240 @@ body {
   text-align: center;
   padding: 2rem;
 }
+
+/* Group styles */
+.create-group-btn {
+  background: transparent;
+  border: 1px solid #5c6bc0;
+  color: #5c6bc0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.create-group-btn:hover {
+  background: #5c6bc0;
+  color: #fff;
+}
+
+.group-container {
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f8f9fc;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.group-header:hover {
+  background: #eef0f5;
+}
+
+.group-expand-icon {
+  font-size: 0.625rem;
+  color: #666;
+  width: 12px;
+}
+
+.group-name {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.group-count {
+  font-size: 0.75rem;
+  color: #999;
+  background: #e1e5eb;
+  padding: 0.125rem 0.5rem;
+  border-radius: 10px;
+}
+
+.edit-group-btn {
+  background: transparent;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0 0.25rem;
+}
+
+.edit-group-btn:hover {
+  color: #5c6bc0;
+}
+
+.group-templates {
+  background: #fff;
+}
+
+.group-templates .template-item {
+  padding-left: 2rem;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e1e5eb;
+}
+
+.modal-header h3 {
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #999;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.group-name-input {
+  width: 100%;
+  background: #f8f9fc;
+  border: 1px solid #dde1e6;
+  color: #333;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.group-name-input:focus {
+  outline: none;
+  border-color: #5c6bc0;
+  background: #fff;
+}
+
+.template-selector {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.selector-label {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.template-select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.template-select-item:hover {
+  background: #f8f9fc;
+}
+
+.template-select-item.selected {
+  background: #e8eaf6;
+}
+
+.template-select-item .checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #dde1e6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #5c6bc0;
+}
+
+.template-select-item.selected .checkbox {
+  background: #5c6bc0;
+  border-color: #5c6bc0;
+  color: #fff;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-top: 1px solid #e1e5eb;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: 1px solid #dde1e6;
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background: #f8f9fc;
+}
+
+.confirm-btn {
+  background: #5c6bc0;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: #4a5ab9;
+}
+
+.confirm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
