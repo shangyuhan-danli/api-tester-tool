@@ -6,8 +6,8 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background: #1a1a2e;
-  color: #eee;
+  background: #f5f7fa;
+  color: #333;
   min-height: 100vh;
 }
 
@@ -18,14 +18,15 @@ body {
 }
 
 .header {
-  background: #16213e;
+  background: #fff;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #0f3460;
+  border-bottom: 1px solid #e1e5eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header h1 {
   font-size: 1.5rem;
-  color: #e94560;
+  color: #5c6bc0;
 }
 
 .main-container {
@@ -35,13 +36,13 @@ body {
 
 .sidebar {
   width: 280px;
-  background: #16213e;
-  border-right: 1px solid #0f3460;
+  background: #fff;
+  border-right: 1px solid #e1e5eb;
   overflow-y: auto;
 }
 
 .sidebar-section {
-  border-bottom: 1px solid #0f3460;
+  border-bottom: 1px solid #e1e5eb;
 }
 
 .sidebar-header {
@@ -49,19 +50,19 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #0f3460;
+  background: #f8f9fc;
 }
 
 .sidebar-header h3 {
   font-size: 0.875rem;
   text-transform: uppercase;
-  color: #aaa;
+  color: #666;
 }
 
 .clear-btn {
   background: transparent;
   border: none;
-  color: #e94560;
+  color: #e53935;
   cursor: pointer;
   font-size: 0.75rem;
 }
@@ -76,13 +77,13 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #0f3460;
+  border-bottom: 1px solid #f0f2f5;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .template-item:hover, .history-item:hover {
-  background: #0f3460;
+  background: #f8f9fc;
 }
 
 .method-badge {
@@ -94,11 +95,11 @@ body {
   flex-shrink: 0;
 }
 
-.method-badge.get { background: #10b981; color: #fff; }
-.method-badge.post { background: #f59e0b; color: #fff; }
-.method-badge.put { background: #3b82f6; color: #fff; }
-.method-badge.patch { background: #8b5cf6; color: #fff; }
-.method-badge.delete { background: #ef4444; color: #fff; }
+.method-badge.get { background: #4caf50; color: #fff; }
+.method-badge.post { background: #ff9800; color: #fff; }
+.method-badge.put { background: #2196f3; color: #fff; }
+.method-badge.patch { background: #9c27b0; color: #fff; }
+.method-badge.delete { background: #f44336; color: #fff; }
 
 .template-name, .history-url {
   flex: 1;
@@ -106,6 +107,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.875rem;
+  color: #444;
 }
 
 .history-status {
@@ -116,19 +118,19 @@ body {
 .delete-btn {
   background: transparent;
   border: none;
-  color: #666;
+  color: #999;
   cursor: pointer;
   font-size: 1rem;
   padding: 0 0.25rem;
 }
 
 .delete-btn:hover {
-  color: #e94560;
+  color: #e53935;
 }
 
 .empty-text {
   padding: 1rem;
-  color: #666;
+  color: #999;
   font-size: 0.875rem;
   text-align: center;
 }
@@ -148,8 +150,8 @@ body {
 }
 
 .method-select {
-  background: #0f3460;
-  border: 1px solid #0f3460;
+  background: #5c6bc0;
+  border: 1px solid #5c6bc0;
   color: #fff;
   padding: 0.75rem 1rem;
   border-radius: 6px;
@@ -160,9 +162,9 @@ body {
 
 .url-input {
   flex: 1;
-  background: #16213e;
-  border: 1px solid #0f3460;
-  color: #fff;
+  background: #fff;
+  border: 1px solid #dde1e6;
+  color: #333;
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -170,11 +172,12 @@ body {
 
 .url-input:focus {
   outline: none;
-  border-color: #e94560;
+  border-color: #5c6bc0;
+  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.1);
 }
 
 .send-btn {
-  background: #e94560;
+  background: #5c6bc0;
   border: none;
   color: #fff;
   padding: 0.75rem 2rem;
@@ -186,7 +189,7 @@ body {
 }
 
 .send-btn:hover:not(:disabled) {
-  background: #d63850;
+  background: #4a5ab9;
 }
 
 .send-btn:disabled {
@@ -195,20 +198,22 @@ body {
 }
 
 .request-config {
-  background: #16213e;
+  background: #fff;
   border-radius: 8px;
   overflow: hidden;
+  border: 1px solid #e1e5eb;
 }
 
 .tabs {
   display: flex;
-  background: #0f3460;
+  background: #f8f9fc;
+  border-bottom: 1px solid #e1e5eb;
 }
 
 .tab {
   background: transparent;
   border: none;
-  color: #aaa;
+  color: #666;
   padding: 0.75rem 1.5rem;
   font-size: 0.875rem;
   cursor: pointer;
@@ -216,12 +221,12 @@ body {
 }
 
 .tab:hover {
-  color: #fff;
+  color: #333;
 }
 
 .tab.active {
-  color: #e94560;
-  border-bottom: 2px solid #e94560;
+  color: #5c6bc0;
+  border-bottom: 2px solid #5c6bc0;
 }
 
 .tab-content {
@@ -241,9 +246,9 @@ body {
 
 .header-row input {
   flex: 1;
-  background: #1a1a2e;
-  border: 1px solid #0f3460;
-  color: #fff;
+  background: #f8f9fc;
+  border: 1px solid #dde1e6;
+  color: #333;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
   font-size: 0.875rem;
@@ -251,13 +256,14 @@ body {
 
 .header-row input:focus {
   outline: none;
-  border-color: #e94560;
+  border-color: #5c6bc0;
+  background: #fff;
 }
 
 .remove-btn {
   background: transparent;
-  border: 1px solid #0f3460;
-  color: #666;
+  border: 1px solid #dde1e6;
+  color: #999;
   width: 32px;
   border-radius: 4px;
   cursor: pointer;
@@ -265,14 +271,14 @@ body {
 }
 
 .remove-btn:hover {
-  color: #e94560;
-  border-color: #e94560;
+  color: #e53935;
+  border-color: #e53935;
 }
 
 .add-header-btn {
   background: transparent;
-  border: 1px dashed #0f3460;
-  color: #666;
+  border: 1px dashed #dde1e6;
+  color: #999;
   padding: 0.5rem;
   border-radius: 4px;
   cursor: pointer;
@@ -281,15 +287,15 @@ body {
 }
 
 .add-header-btn:hover {
-  color: #e94560;
-  border-color: #e94560;
+  color: #5c6bc0;
+  border-color: #5c6bc0;
 }
 
 .body-editor textarea {
   width: 100%;
-  background: #1a1a2e;
-  border: 1px solid #0f3460;
-  color: #fff;
+  background: #f8f9fc;
+  border: 1px solid #dde1e6;
+  color: #333;
   padding: 0.75rem;
   border-radius: 4px;
   font-family: 'Monaco', 'Menlo', monospace;
@@ -299,7 +305,8 @@ body {
 
 .body-editor textarea:focus {
   outline: none;
-  border-color: #e94560;
+  border-color: #5c6bc0;
+  background: #fff;
 }
 
 .save-template {
@@ -309,9 +316,9 @@ body {
 
 .template-name-input {
   flex: 1;
-  background: #1a1a2e;
-  border: 1px solid #0f3460;
-  color: #fff;
+  background: #f8f9fc;
+  border: 1px solid #dde1e6;
+  color: #333;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
   font-size: 0.875rem;
@@ -319,11 +326,12 @@ body {
 
 .template-name-input:focus {
   outline: none;
-  border-color: #e94560;
+  border-color: #5c6bc0;
+  background: #fff;
 }
 
 .save-btn {
-  background: #0f3460;
+  background: #5c6bc0;
   border: none;
   color: #fff;
   padding: 0.5rem 1rem;
@@ -333,7 +341,7 @@ body {
 }
 
 .save-btn:hover:not(:disabled) {
-  background: #e94560;
+  background: #4a5ab9;
 }
 
 .save-btn:disabled {
@@ -343,16 +351,17 @@ body {
 
 .response-section {
   flex: 1;
-  background: #16213e;
+  background: #fff;
   border-radius: 8px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  border: 1px solid #e1e5eb;
 }
 
 .response-section h3 {
   font-size: 0.875rem;
-  color: #aaa;
+  color: #666;
   margin-bottom: 1rem;
   text-transform: uppercase;
 }
@@ -363,11 +372,11 @@ body {
 }
 
 .response-error {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid #ef4444;
+  background: #ffebee;
+  border: 1px solid #ef5350;
   border-radius: 4px;
   padding: 1rem;
-  color: #ef4444;
+  color: #c62828;
 }
 
 .response-meta {
@@ -375,7 +384,7 @@ body {
   gap: 1.5rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #0f3460;
+  border-bottom: 1px solid #e1e5eb;
 }
 
 .response-meta .status {
@@ -383,7 +392,7 @@ body {
 }
 
 .response-meta .duration {
-  color: #aaa;
+  color: #666;
 }
 
 .response-headers, .response-body {
@@ -392,13 +401,13 @@ body {
 
 .response-headers h4, .response-body h4 {
   font-size: 0.75rem;
-  color: #666;
+  color: #888;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
 }
 
 .response-headers pre, .response-body pre {
-  background: #1a1a2e;
+  background: #f8f9fc;
   padding: 1rem;
   border-radius: 4px;
   overflow-x: auto;
@@ -407,10 +416,12 @@ body {
   line-height: 1.5;
   max-height: 300px;
   overflow-y: auto;
+  border: 1px solid #e1e5eb;
+  color: #333;
 }
 
 .empty-response {
-  color: #666;
+  color: #999;
   text-align: center;
   padding: 2rem;
 }
